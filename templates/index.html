@@ -1,412 +1,207 @@
 <html lang="html" style="--bottom-side-width: NaNpx;">
-
 <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
     <title>哇哈哈</title>
-
     <style type="text/css">
-
         * {
-
             padding: 0;
-
             margin: 0;
-
         }
-
         .clear::after {
-
             display: block;
-
             height: 0;
-
             clear: both;
-
             content: " ";
-
         }
-
         .top {
-
             /* 设置宽度高度背景颜色 */
-
             height: 50px;
-
             width: 100%;
-
             background: rgb(189, 181, 181);
-
         }
-
         .top ul {
-
             /* 清除ul标签的默认样式 */
-
             width: 40%;
-
             list-style-type: none;
-
             margin: 0 30%;
-
             padding: 0;
-
             overflow: hidden;
-
         }
-
         .top li {
-
             width: 16.66%;
-
             float: left; /* 使li内容横向浮动，即横向排列 */
-
         }
-
-
         .top li a {
-
             display: block; /* 把链接显示为块元素可使整个链接区域可点击 */
-
             color: white;
-
             text-align: center;
-
             padding: 14px 16px;
-
             text-decoration: none; /* 去除下划线 */
-
         }
-
         .top li a:hover {
-
             background-color: #111;
-
         }
-
         .top ul li ul {
-
             background: rgb(189, 181, 181);
-
             position: absolute;
-
             display: none; /* 默认隐藏二级菜单的内容 */
-
         }
-
         .top ul li ul li {
-
             /* 二级菜单li内容的显示 */
-
             margin-right: 30%;
-
             float: none;
-
             text-align: center;
-
         }
-
         .top ul li:hover ul {
-
             /* 鼠标选中二级菜单内容时 */
-
             display: block;
-
         }
-
         .body {
-
             width: 50%;
-
             margin: 30px 25%;
-
         }
-
         .item {
-
             margin-bottom: 2rem;
-
             box-shadow: 0 0 10px 1px gray;
-
             padding: 0.5rem;
-
         }
-
         .title {
-
             font-size: 20px;
-
             color: red;
-
         }
-
         .title:hover {
-
             text-decoration: underline;
-
             cursor: pointer;
-
         }
-
         .wrap {
-
             margin: 1rem 0;
-
         }
-
         .img_wrap {
-
             width: 20%;
-
             margin-right: 1rem;
-
             float: left;
-
         }
-
         .img_wrap img {
-
             width: 100%;
-
         }
-
         .item_content {
-
             line-height: 2rem;
-
             text-indent: 2rem;
-
         }
-
         .item_content:hover {
-
             text-decoration: underline;
-
             cursor: pointer;
-
         }
-
         .actions {
-
             height: 3rem;
-
             line-height: 3rem;
-
         }
-
         .actions button {
-
             float: right;
-
             margin-right: 1rem;
-
             cursor: pointer;
-
             border: 1px solid transparent;
-
             border-radius: 5px;
-
             background: transparent;
-
             outline: none;
-
             padding: 0.5rem;
-
         }
-
         .actions button:hover {
-
             border: 1px solid gray;
-
         }
-
         .down {
-
             margin: 0 0.5rem;
-
             width: 0.75rem;
-
             height: 0.75rem;
-
             display: inline-block;
-
             vertical-align: top;
-
         }
-
         .down::after {
-
             content: "";
-
             display: block;
-
             box-sizing: border-box;
-
             width: 100%;
-
             height: 100%;
-
             border: 1px solid black;
-
             border-right-color: transparent;
-
             border-bottom-color: transparent;
-
             transform-origin: center;
-
             transform: rotate(-135deg);
-
         }
-
         .love {
-
             display: inline-block;
-
             width: 1rem;
-
             height: 0.8rem;
-
             position: relative;
-
             background-color: transparent;
-
             margin: 0 0.1rem;
-
             vertical-align: text-top;
-
         }
-
-
         .love:before {
-
             content: "";
-
             position: absolute;
-
             left: 0;
-
             top: 0;
-
             width: 0.5rem;
-
             height: 0.8rem;
-
             border-radius: 0.5rem 0.5rem 0 0;
-
             transform: rotate(45deg);
-
             transform-origin: right bottom;
-
             background-color: red;
-
         }
-
         .love:after {
-
             content: "";
-
             position: absolute;
-
             right: 0;
-
             top: 0;
-
             width: 0.5rem;
-
             height: 0.8rem;
-
             border-radius: 0.5rem 0.5rem 0 0;
-
             background-color: red;
-
             transform: rotate(-45deg);
-
             transform-origin: left bottom;
-
         }
-
     </style>
-
     <title></title>
-
 </head>
-
 <body>
-
 <div class="top">
-
     <ul>
-
         <li><a href="/">首页</a></li>
-
         <li><a href="#">一级菜单</a></li>
-
         <li><a href="#">一级菜单</a></li>
-
         <li><a href="#">一级菜单</a></li>
-
         <li><a href="#">一级菜单</a></li>
-
     </ul>
-
 </div>
-
 <div class="body">
-
     <div class="item">
-
         <p class="title">这是一个标题</p>
-
         <div class="wrap clear">
-
             <div class="img_wrap">
-
                 <img
-
-                        src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1592444716&di=e21626e35615929324b6b32cfc787bde&src=http://a0.att.hudong.com/56/12/01300000164151121576126282411.jpg"
-
+                        src="{{ url_for('static', path='/img/20160807002253nwcb3qtxzjq150984.jpg') }}"
                 />
-
             </div>
-
             <div class="item_content">
-
                 内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-
             </div>
-
         </div>
-
         <div class="actions">
-
             <button>阅读全文<span class="down"></span></button>
-
             <button><span>126</span>条评论</button>
-
-            <button><span class="love"></span>赞同<span>126</span></button>
-
+            <button><span class="love"></span>赞<span>126</span></button>
         </div>
-
     </div>
-
 </div>
-
 </body>
 
-
 <script>
-
     let content = document.getElementsByClassName("item_content")[0];
-
     content.innerHTML =
-
         content.innerHTML.length > 100
-
             ? content.innerHTML.substr(0, 100).concat("...")
-
             : content.innerHTML;
-
 </script>
 
 </html>
