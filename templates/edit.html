@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Article Editor</title>
+</head>
+<body>
+    <p>标题</p>
+    {% if res %}
+    <input type="text" name="title" value="{{ res.title }}">
+    {% else %}
+    <input type="text" name="title" placeholder="这里起个名儿">
+    {% endif %}
+
+    <div id="editor">
+        {% if res %}
+        <b>{{ res.body }}</b>
+        {% else %}
+        <b>开始你的表演。</b>
+        {% endif %}
+    </div>
+    <button id="btn1">提交</button>
+
+    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+    <script type="text/javascript" src="{{ url_for('static', path='/wangEditor.js') }}"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        // 自定义配置颜色（字体颜色、背景色）
+        editor.customConfig.colors = [
+            '#000000',
+            '#eeece0',
+            '#1c487f',
+            '#4d80bf',
+            '#c24f4a',
+            '#8baa4a',
+            '#7b5ba1',
+            '#46acc8',
+            '#f9963b',
+            '#ffffff'
+        ]
+        editor.create()
+
+        document.getElementById('btn1').addEventListener('click', function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open("post", '/articles/push', true);
+            xhr.send(JSON.stringify({'body': editor.txt.html(), 'title': document.querySelector("input[name='title']").value}));
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState === 4 && xhr.status === 404){
+                    window.alert('哈哈哈哈哈哈哈哈和和')
+                }
+                else if (xhr.status === 200){
+                    location.reload();
+                }
+            }
+        }, false)
+
+    </script>
+</body>
+</html>

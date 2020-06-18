@@ -1,0 +1,8 @@
+aiofiles
+aiomysql
+fastapi
+gunicorn
+jinja2
+configparser
+mysqlclient
+uvicorn
