@@ -1,0 +1,22 @@
+<div class="body">
+    {% for art in res %}
+    <div class="item">
+        <p class="title">{{ art.title }}</p>
+        <div class="wrap clear">
+            {% if art.img_path %}
+            <div class="img_wrap">
+                <img src="{{ url_for('static', path='/img/') }}{{ art.img_path.split('/')[-1] }}"/>
+            </div>
+            {% endif %}
+            <div class="item_content">
+                {{ art.body[:100] | safe}}
+            </div>
+        </div>
+        <div class="actions">
+            <button>阅读全文<span class="down"></span></button>
+            <button><span>126</span>条评论</button>
+            <button><span class="love"></span>赞<span>126</span></button>
+        </div>
+    </div>
+    {% endfor %}
+</div>

@@ -26,6 +26,10 @@
     <script type="text/javascript">
         var E = window.wangEditor
         var editor = new E('#editor')
+        editor.customConfig.showLinkImg = false
+        editor.customConfig.uploadImgServer = '/upload_img/'
+        editor.customConfig.uploadImgHeaders = {'Accept': 'application/json'}
+        editor.customConfig.uploadFileName = 'file'
         // 自定义配置颜色（字体颜色、背景色）
         editor.customConfig.colors = [
             '#000000',
@@ -39,19 +43,23 @@
             '#f9963b',
             '#ffffff'
         ]
+        var save_path = '';
+        editor.customConfig.uploadImgHooks = {
+            success: function (xhr, editor, result) {
+                save_path = result.data[0]
+            }
+        }
         editor.create()
 
         document.getElementById('btn1').addEventListener('click', function () {
             var xhr = new XMLHttpRequest();
             xhr.open("post", '/articles/push', true);
-            xhr.send(JSON.stringify({'body': editor.txt.html(), 'title': document.querySelector("input[name='title']").value}));
-            xhr.onreadystatechange = function(){
+            xhr.send(JSON.stringify({'body': editor.txt.html(), 'title': document.querySelector("input[name='title']").value, 'img_path': save_path}));
+            xhr.onreadystatechange = function(){-
                 if (xhr.readyState === 4 && xhr.status === 404){
                     window.alert('哈哈哈哈哈哈哈哈和和')
                 }
-                else if (xhr.status === 200){
-                    location.reload();
-                }
+
             }
         }, false)
 
