@@ -11,12 +11,12 @@ class Config(configparser.ConfigParser):
         self.MODEL_FILE_NAME = 'models.py'
         self.VIEWS_FILE_NAME = 'views.py'
         self.modules = ['.'.join(root.replace('./', '').split('/'))
-                        if platform.platform() == ''
+                        if platform.system() == 'Linux'
                         else '.'.join(root.replace('.\\', '').split('/'))
                         for root, dirs, files in os.walk('.')
                         if self.MODEL_FILE_NAME in files]
         self.views = ['.'.join(root.replace('./', '').split('/'))
-                      if platform.platform() == ''
+                      if platform.system() == 'Linux'
                       else '.'.join(root.replace('.\\', '').split('/'))
                       for root, dirs, files in os.walk('.')
                       if self.VIEWS_FILE_NAME in files]
