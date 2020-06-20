@@ -1,5 +1,6 @@
 import configparser
 import os
+import platform
 
 
 class Config(configparser.ConfigParser):
@@ -9,9 +10,15 @@ class Config(configparser.ConfigParser):
         self.db_section = 'Database'
         self.MODEL_FILE_NAME = 'models.py'
         self.VIEWS_FILE_NAME = 'views.py'
-        self.modules = ['.'.join(root.replace('./', '').split('/')) for root, dirs, files in os.walk('.')
+        self.modules = ['.'.join(root.replace('./', '').split('/'))
+                        if platform.platform() == ''
+                        else '.'.join(root.replace('.\\', '').split('/'))
+                        for root, dirs, files in os.walk('.')
                         if self.MODEL_FILE_NAME in files]
-        self.views = ['.'.join(root.replace('./', '').split('/')) for root, dirs, files in os.walk('.')
+        self.views = ['.'.join(root.replace('./', '').split('/'))
+                      if platform.platform() == ''
+                      else '.'.join(root.replace('.\\', '').split('/'))
+                      for root, dirs, files in os.walk('.')
                       if self.VIEWS_FILE_NAME in files]
         self.load_file()
 

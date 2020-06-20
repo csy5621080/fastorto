@@ -6,3 +6,5 @@ jinja2
 configparser
 mysqlclient
 uvicorn
+python-multipart
+tortoise-orm
