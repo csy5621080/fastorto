@@ -6,6 +6,7 @@ from core.routers import templates
 from fastapi import UploadFile, File
 from fastapi.responses import Response
 import json
+from logger import logger
 router = ArticleAPIRouter()
 
 
@@ -30,9 +31,13 @@ async def article_creator(request: Request):
 
 @router.post('/upload_img/')
 async def upload_img(file: UploadFile = File(...)):
-    contents = await file.read()
-    save_path = '/static/img/' + file.filename
-    relative_path = '.' + save_path
-    with open(relative_path, 'wb+') as img:
-        img.write(contents)
-    return Response(content=json.dumps({"errno": 0, "data": [save_path]}))
+    try:
+        contents = await file.read()
+        save_path = '/static/img/' + file.filename
+        relative_path = '.' + save_path
+        with open(relative_path, 'wb+') as img:
+            img.write(contents)
+        return Response(content=json.dumps({"errno": 0, "data": [save_path]}))
+    except Exception as e:
+        logger.error(str(e))
+        return Response(content=str(e))
