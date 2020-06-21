@@ -1,22 +1,44 @@
 <div class="body">
     {% for art in res %}
-    <div class="item">
-        <p class="title">{{ art.title }}</p>
-        <div class="wrap clear">
-            {% if art.img_path %}
-            <div class="img_wrap">
-                <img src="{{ url_for('static', path='/img/') }}{{ art.img_path.split('/')[-1] }}"/>
+        <div class="item">
+            <p class="title">{{ art.title }}</p>
+            <div class="wrap clear">
+                {% if art.img_path %}
+                    <div class="img_wrap">
+                        <img src="{{ url_for('static', path='/img/') }}{{ art.img_path.split('/')[-1] }}"/>
+                    </div>
+                {% endif %}
+                <div class="item_content">
+                    {{ art.body[:100] | safe }}
+                </div>
             </div>
-            {% endif %}
-            <div class="item_content">
-                {{ art.body[:100] | safe}}
+            <div class="actions">
+                <button onclick="window.location.href='/article/detail/{{ art.id }}'">阅读全文<span class="down"></span>
+                </button>
+                <button><span>126</span>条评论</button>
+                {#            <button><span class="love"></span>赞<span>126</span></button>#}
             </div>
         </div>
-        <div class="actions">
-            <button>阅读全文<span class="down"></span></button>
-            <button><span>126</span>条评论</button>
-            <button><span class="love"></span>赞<span>126</span></button>
+    {% endfor %}
+    <div class="container large">
+        <div class="pagination">
+            <ul>
+                {% if page_num - 1 > 0 %}
+                    <li><a href="/articles/list/{{ page_num - 1 }}"></a></li>
+                {% else %}
+                    <li><a href="/articles/list/{{ 1 }}"></a></li>
+                {% endif %}
+
+                {% for idx in range(pages) %}
+                    <li><a href="/articles/list/{{ idx + 1 }}"></a></li>
+                {% endfor %}
+
+                {% if page_num + 1 <= pages %}
+                    <li><a href="/articles/list/{{ page_num + 1 }}"></a></li>
+                {% else %}
+                    <li><a href="/articles/list/{{ pages }}"></a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>
-    {% endfor %}
 </div>

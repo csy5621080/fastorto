@@ -6,14 +6,23 @@ from core.routers import templates
 from fastapi import UploadFile, File
 from fastapi.responses import Response
 import json
-from logger import logger
 router = ArticleAPIRouter()
 
 
-@router.get('/articles/list')
-async def articles(request: Request):
-    article_li = await Article.all()
-    return article_li
+@router.get('/articles/list/{page_num}')
+async def articles(request: Request, page_num: int):
+    article_li = await Article.all().order_by('-id').limit(10).offset((page_num-1)*10)
+    count = await Article.all().count()
+    return templates.TemplateResponse('index.html',
+                                      {"request": request, "res": article_li, "page_num": page_num,
+                                       "count": count, "pages": count//10 + 1}
+                                      )
+
+
+@router.get('/article/detail/{pk}')
+async def article(request: Request, pk: int):
+    res = await Article.get(id=pk)
+    return templates.TemplateResponse('article.html', {"request": request, 'res': res})
 
 
 @router.post('/articles/push')
@@ -39,5 +48,4 @@ async def upload_img(file: UploadFile = File(...)):
             img.write(contents)
         return Response(content=json.dumps({"errno": 0, "data": [save_path]}))
     except Exception as e:
-        logger.error(str(e))
         return Response(content=str(e))

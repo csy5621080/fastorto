@@ -1,0 +1,22 @@
+<html lang="html" style="--bottom-side-width: NaNpx;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>哇哈哈</title>
+    <title></title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}" type="text/css">
+</head>
+<body>
+{% include 'top.html' %}
+<div class="body">
+    <div class="item">
+        <p class="title_detail">{{ res.title }}</p>
+        <div class="wrap clear">
+            <div class="item_content_detail">
+                {{ res.body | safe }}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

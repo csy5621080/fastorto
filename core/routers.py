@@ -11,8 +11,12 @@ base_router = BaseRouter()
 
 @base_router.get("/")
 async def index(request: Request):
-    article_li = await Article.all()
-    return templates.TemplateResponse('index.html', {"request": request, "res": article_li})
+    article_li = await Article.all().order_by('-id').limit(10).offset(0)
+    count = await Article.all().count()
+    return templates.TemplateResponse('index.html',
+                                      {"request": request, "res": article_li, "page_num": 1,
+                                       "count": count, "pages": count//10 + 1}
+                                      )
 
 
 def router_register(app):
