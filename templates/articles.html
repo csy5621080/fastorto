@@ -15,7 +15,7 @@
             <div class="actions">
                 <button onclick="window.location.href='/article/detail/{{ art.id }}'">阅读全文<span class="down"></span>
                 </button>
-                <button><span>126</span>条评论</button>
+                <button onclick="window.location.href='/article/detail/{{ art.id }}?type=comment'"><span>{{ art.comment_count }}</span>条评论</button>
                 <!--<button><span class="love"></span>赞<span>126</span></button>-->
             </div>
         </div>

@@ -12,9 +12,14 @@ router = ArticleAPIRouter()
 @router.get('/articles/list/{page_num}')
 async def articles(request: Request, page_num: int):
     article_li = await Article.all().order_by('-id').limit(10).offset((page_num-1)*10)
+    res = []
+    for art in article_li:
+        comment_count: int = await art.comment_article.all().count()
+        art.comment_count = comment_count
+        res.append(art)
     count = await Article.all().count()
     return templates.TemplateResponse('index.html',
-                                      {"request": request, "res": article_li, "page_num": page_num,
+                                      {"request": request, "res": res, "page_num": page_num,
                                        "count": count, "pages": count//10 + 1}
                                       )
 

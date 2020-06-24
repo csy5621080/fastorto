@@ -72,15 +72,15 @@
     function offsetHeight(dom) {
         var iTop = 0;
         while (dom.parentNode.nodeName.toLocaleLowerCase() !== 'body') {
-            dom = dom.parentNode
+            dom = dom.parentNode;
             iTop = dom.offsetTop;
         }
         return iTop
     }
 
     function scrollFunc() {
-        const textareaDom = document.getElementById('comment_text')
-        const domHeight = offsetHeight(textareaDom)
+        const textareaDom = document.getElementById('comment_text');
+        const domHeight = offsetHeight(textareaDom);
         window.scrollTo({
             top: domHeight,
             behavior: 'smooth'
