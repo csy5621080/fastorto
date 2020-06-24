@@ -1,6 +1,6 @@
 from fastapi import APIRouter as ArticleAPIRouter
 from fastapi.encoders import jsonable_encoder
-from article.models import Article
+from article.models import Article, Comment
 from fastapi.requests import Request
 from core.routers import templates
 from fastapi import UploadFile, File
@@ -22,7 +22,8 @@ async def articles(request: Request, page_num: int):
 @router.get('/article/detail/{pk}')
 async def article(request: Request, pk: int):
     res = await Article.get(id=pk)
-    return templates.TemplateResponse('article.html', {"request": request, 'res': res})
+    comments = await Comment.filter(article_id=pk).order_by('-create_time')
+    return templates.TemplateResponse('article.html', {"request": request, 'res': res, 'comments': comments})
 
 
 @router.post('/articles/push')
@@ -49,3 +50,13 @@ async def upload_img(file: UploadFile = File(...)):
         return Response(content=json.dumps({"errno": 0, "data": [save_path]}))
     except Exception as e:
         return Response(content=str(e))
+
+
+@router.post('/article/{article_id}/comment')
+async def comment(request: Request, data: dict, article_id: int):
+    ip = request.client.host
+    data = jsonable_encoder(data)
+    data['ip'] = ip
+    data['article_id'] = article_id
+    comment = await Comment.create(**data)
+    return comment

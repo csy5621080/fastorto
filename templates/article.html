@@ -4,6 +4,7 @@
     <title>哇哈哈</title>
     <title></title>
     <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/pinglun.css') }}" type="text/css">
 </head>
 <body>
 {% include 'top.html' %}
@@ -17,6 +18,90 @@
         </div>
     </div>
 </div>
+<div class="body">
+    <div class="item">
+        <div lang="en-US" class="gitment-container gitment-editor-container">
+            <div class="gitment-editor-main">
+                <div class="gitment-editor-header">
+                    <nav class="gitment-editor-tabs">
+                        <button class="gitment-editor-tab gitment-selected">编辑</button>
+                    </nav>
+                </div>
+                <div class="gitment-editor-body">
+                    <div class="gitment-editor-write-field">
+                        <textarea id='comment_text' placeholder="你想说些什么" title="Login to Comment"></textarea>
+                    </div>
+                    <div class="gitment-editor-preview-field gitment-hidden">
+                        <div class="gitment-editor-preview gitment-markdown"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <button id="comment_btn" onclick="window.location.href='#'">评 论</button>
+            </div>
+        </div>
+        {% for comment in comments %}
+            <div lang="en-US" class="gitment-container gitment-comments-container">
+                <ul class="gitment-comments-list">
+                    <li class="gitment-comment">
+                        <a class="gitment-comment-avatar">
+                            <img class="gitment-comment-avatar-img" src="../images/default-avatar.png">
+                        </a>
+                        <div class="gitment-comment-main">
+                            <div class="gitment-comment-header">
+                                <a class="gitment-comment-name">
+                                    {{ comment.author.name }}
+                                </a>
+                                <span>{{ comment.create_time.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+
+                            </div>
+                            <div class="gitment-comment-body gitment-markdown"><p>{{ comment.content }}</p></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 </body>
 
 </html>
+
+<script>
+
+    function offsetHeight(dom) {
+        var iTop = 0;
+        while (dom.parentNode.nodeName.toLocaleLowerCase() !== 'body') {
+            dom = dom.parentNode
+            iTop = dom.offsetTop;
+        }
+        return iTop
+    }
+
+    function scrollFunc() {
+        const textareaDom = document.getElementById('comment_text')
+        const domHeight = offsetHeight(textareaDom)
+        window.scrollTo({
+            top: domHeight,
+            behavior: 'smooth'
+        })
+    }
+
+    if (window.location.href.indexOf('type=comment') > -1) {
+        setTimeout(scrollFunc, 50);
+    }
+
+    document.getElementById('comment_btn').addEventListener('click', function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", '/article/{{ res.id }}/comment', true);
+        xhr.send(JSON.stringify({'content': document.querySelector("textarea[id='comment_text']").value}));
+        xhr.onreadystatechange = function (result) {
+            if (xhr.readyState === 4 && xhr.status === 404) {
+                window.alert('哈哈哈哈哈哈哈哈和和')
+            }
+            if (xhr.readyState === 2 && xhr.status === 200) {
+                window.open("?type=comment")
+            }
+        }
+    }, false)
+</script>

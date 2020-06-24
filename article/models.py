@@ -15,7 +15,9 @@ class Article(Model):
 class Comment(Model):
     id = fields.IntField(pk=True)
     article: fields.ForeignKeyRelation[Article] = fields.ForeignKeyField('models.Article', related_name='comment_article')
-    parent = fields.ForeignKeyField('models.Comment', related_name='comment_parent')
-    author = fields.CharField(max_length=128)
+    parent = fields.ForeignKeyField('models.Comment', related_name='comment_parent', null=True)
+    author = fields.CharField(max_length=128, null=True)
     email = fields.CharField(max_length=128, null=True)
     create_time = fields.DatetimeField(auto_now_add=True)
+    content = fields.CharField(max_length=2000, null=False)
+    ip = fields.CharField(max_length=128)
