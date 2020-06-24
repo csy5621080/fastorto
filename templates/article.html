@@ -45,12 +45,16 @@
                 <ul class="gitment-comments-list">
                     <li class="gitment-comment">
                         <a class="gitment-comment-avatar">
-                            <img class="gitment-comment-avatar-img" src="../images/default-avatar.png">
+                            <img class="gitment-comment-avatar-img" src="{{ url_for('static', path='/img/headshot/') }}{{ range(1, 11) | random }}.jpg">
                         </a>
                         <div class="gitment-comment-main">
                             <div class="gitment-comment-header">
                                 <a class="gitment-comment-name">
-                                    {{ comment.author.name }}
+                                    {% if comment.author %}
+                                        {{ comment.author.name }}
+                                    {% else %}
+                                        游客({{ comment.ip }})
+                                    {% endif %}
                                 </a>
                                 <span>{{ comment.create_time.strftime("%Y-%m-%d %H:%M:%S") }}</span>
 
