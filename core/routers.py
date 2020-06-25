@@ -11,7 +11,7 @@ base_router = BaseRouter()
 
 @base_router.get("/")
 async def index(request: Request):
-    article_li = await Article.all().order_by('-id').limit(10).offset(0)
+    article_li: list = await Article.all().order_by('-id').limit(10).offset(0)
     res = []
     for art in article_li:
         comment_count: int = await art.comment_article.all().count()

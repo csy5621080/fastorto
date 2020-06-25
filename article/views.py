@@ -6,34 +6,39 @@ from core.routers import templates
 from fastapi import UploadFile, File
 from fastapi.responses import Response
 import json
+
 router = ArticleAPIRouter()
 
 
 @router.get('/articles/list/{page_num}')
 async def articles(request: Request, page_num: int):
-    article_li = await Article.all().order_by('-id').limit(10).offset((page_num-1)*10)
+    article_li: list = await Article.all().order_by('-id').limit(10).offset((page_num - 1) * 10)
     res = []
     for art in article_li:
         comment_count: int = await art.comment_article.all().count()
         art.comment_count = comment_count
+        author = await art.author
+        art.author = author
         res.append(art)
     count = await Article.all().count()
     return templates.TemplateResponse('index.html',
                                       {"request": request, "res": res, "page_num": page_num,
-                                       "count": count, "pages": count//10 + 1}
+                                       "count": count, "pages": count // 10 + 1}
                                       )
 
 
 @router.get('/article/detail/{pk}')
 async def article(request: Request, pk: int):
-    res = await Article.get(id=pk)
-    comments = await Comment.filter(article_id=pk).order_by('-create_time')
-    return templates.TemplateResponse('article.html', {"request": request, 'res': res, 'comments': comments})
+    res: Article = await Article.get(id=pk)
+    comments: list = await Comment.filter(article_id=pk).order_by('-create_time')
+    author = await res.author
+    return templates.TemplateResponse('article.html',
+                                      {"request": request, 'res': res, 'comments': comments, 'author': author})
 
 
 @router.post('/articles/push')
 async def article(request: Request, data: dict):
-    data = jsonable_encoder(data)
+    data: dict = jsonable_encoder(data)
     data['author_id'] = 1
     res = await Article.create(**data)
     return templates.TemplateResponse('edit.html', {"request": request, 'res': res})
@@ -47,7 +52,7 @@ async def article_creator(request: Request):
 @router.post('/upload_img/')
 async def upload_img(file: UploadFile = File(...)):
     try:
-        contents = await file.read()
+        contents: bytes = await file.read()
         save_path = '/static/img/' + file.filename
         relative_path = '.' + save_path
         with open(relative_path, 'wb+') as img:

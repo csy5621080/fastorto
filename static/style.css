@@ -2,18 +2,21 @@
     padding: 0;
     margin: 0;
 }
+
 .clear::after {
     display: block;
     height: 0;
     clear: both;
     content: " ";
 }
+
 .top {
     /* 设置宽度高度背景颜色 */
     height: 50px;
     width: 100%;
     background: rgb(189, 181, 181);
 }
+
 .top ul {
     /* 清除ul标签的默认样式 */
     width: 40%;
@@ -22,10 +25,12 @@
     padding: 0;
     overflow: hidden;
 }
+
 .top li {
     width: 16.66%;
     float: left; /* 使li内容横向浮动，即横向排列 */
 }
+
 .top li a {
     display: block; /* 把链接显示为块元素可使整个链接区域可点击 */
     color: white;
@@ -33,75 +38,93 @@
     padding: 14px 16px;
     text-decoration: none; /* 去除下划线 */
 }
+
 .top li a:hover {
     background-color: #111;
 }
+
 .top ul li ul {
     background: rgb(189, 181, 181);
     position: absolute;
     display: none; /* 默认隐藏二级菜单的内容 */
 }
+
 .top ul li ul li {
     /* 二级菜单li内容的显示 */
     margin-right: 30%;
     float: none;
     text-align: center;
 }
+
 .top ul li:hover ul {
     /* 鼠标选中二级菜单内容时 */
     display: block;
 }
+
 .body {
     width: 50%;
     margin: 30px 25%;
 }
+
 .item {
     margin-bottom: 2rem;
     box-shadow: 0 0 10px 1px gray;
     padding: 0.5rem;
 }
+
 .title {
     font-size: 20px;
     color: red;
 }
+
 .title_detail {
     font-size: 20px;
     color: red;
-    text-align:center;
+    text-align: center;
 }
+
 .title:hover {
     text-decoration: underline;
     cursor: pointer;
 }
+
 .title_detail:hover {
     cursor: pointer;
 }
+
 .wrap {
     margin: 1rem 0;
 }
+
 .img_wrap {
     width: 20%;
     margin-right: 1rem;
     float: left;
 }
+
 .img_wrap img {
     width: 100%;
 }
+
 .item_content .item_content_detail {
     line-height: 2rem;
     text-indent: 2rem;
 }
+
 .item_content:hover {
     text-decoration: underline;
     cursor: pointer;
 }
+
 .item_content_detail:hover {
     cursor: pointer;
 }
+
 .actions {
     height: 3rem;
     line-height: 3rem;
 }
+
 .actions button {
     float: right;
     margin-right: 1rem;
@@ -112,9 +135,11 @@
     outline: none;
     padding: 0.5rem;
 }
+
 .actions button:hover {
     border: 1px solid gray;
 }
+
 .down {
     margin: 0 0.5rem;
     width: 0.75rem;
@@ -122,6 +147,7 @@
     display: inline-block;
     vertical-align: top;
 }
+
 .down::after {
     content: "";
     display: block;
@@ -134,6 +160,7 @@
     transform-origin: center;
     transform: rotate(-135deg);
 }
+
 .love {
     display: inline-block;
     width: 1rem;
@@ -143,6 +170,7 @@
     margin: 0 0.1rem;
     vertical-align: text-top;
 }
+
 .love:before {
     content: "";
     position: absolute;
@@ -155,6 +183,7 @@
     transform-origin: right bottom;
     background-color: red;
 }
+
 .love:after {
     content: "";
     position: absolute;
@@ -170,116 +199,164 @@
 
 
 .container {
-  background: #fdfdfd;
-  padding: 1rem;
-  margin: 3rem auto;
-  border-radius: 0.2rem;
-  counter-reset: pagination;
-  text-align: center;
+    background: #fdfdfd;
+    padding: 1rem;
+    margin: 3rem auto;
+    border-radius: 0.2rem;
+    counter-reset: pagination;
+    text-align: center;
 }
+
 .container:after {
-  clear: both;
-  content: "";
-  display: table;
+    clear: both;
+    content: "";
+    display: table;
 }
+
 .container ul {
-  width: 100%;
+    width: 100%;
 }
 
 .large {
-  width: 45rem;
+    width: 45rem;
 }
 
 
 .pagination ul, li {
-  list-style: none;
-  display: inline;
-  padding-left: 0px;
+    list-style: none;
+    display: inline;
+    padding-left: 0px;
 }
 
 .pagination li {
-  counter-increment: pagination;
+    counter-increment: pagination;
 }
+
 .pagination li:hover a {
-  color: #fdfdfd;
-  background-color: #1d1f20;
-  border: solid 1px #1d1f20;
+    color: #fdfdfd;
+    background-color: #1d1f20;
+    border: solid 1px #1d1f20;
 }
+
 .pagination li.active a {
-  color: #fdfdfd;
-  background-color: #1d1f20;
-  border: solid 1px #1d1f20;
+    color: #fdfdfd;
+    background-color: #1d1f20;
+    border: solid 1px #1d1f20;
 }
 
 .pagination li:first-child a:after {
-  content: "<";
+    content: "<";
 }
 
 .pagination li:nth-child(2) {
-  counter-reset: pagination;
+    counter-reset: pagination;
 }
 
 .pagination li:last-child a:after {
-  content: ">";
+    content: ">";
 }
+
 .pagination li a {
-  border: solid 1px #d6d6d6;
-  border-radius: 0.2rem;
-  color: #7d7d7d;
-  text-decoration: none;
-  text-transform: uppercase;
-  display: inline-block;
-  text-align: center;
-  padding: 0.5rem 0.9rem;
+    border: solid 1px #d6d6d6;
+    border-radius: 0.2rem;
+    color: #7d7d7d;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+    padding: 0.5rem 0.9rem;
 }
+
 .pagination li a:after {
-  content: " " counter(pagination) " ";
+    content: " " counter(pagination) " ";
 }
 
 .large li a {
-  display: none;
+    display: none;
 }
+
 .large li:first-child a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:first-child a:after {
-  content: "<";
+    content: "<";
 }
+
 .large li:nth-child(2) a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:nth-child(3) a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:nth-child(4) a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:nth-child(5) a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:nth-child(6) a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:nth-child(7) a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:nth-child(8) a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:last-child a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:last-child a:after {
-  content: ">";
+    content: ">";
 }
+
 .large li:nth-last-child(2) a {
-  display: inline-block;
+    display: inline-block;
 }
+
 .large li:nth-last-child(3) {
-  display: inline-block;
+    display: inline-block;
 }
+
 /*.large li:nth-last-child(3):after {*/
 /*  padding: 0 1rem;*/
 /*  content: "...";*/
 /*}*/
 
+.Popover {
+    float: right;
+    position: relative;
+    display: inline-block;
+}
+
+.AuthorInfo-avatar {
+    vertical-align: top;
+}
+
+.Avatar {
+    background: #fff;
+    border-radius: 2px;
+}
+
+.AuthorInfo-badgeText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #646464;
+}
+
+.ztext {
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+.inline{ display:inline}
