@@ -11,17 +11,9 @@ base_router = BaseRouter()
 
 @base_router.get("/")
 async def index(request: Request):
-    article_li: list = await Article.all().order_by('-id').limit(10).offset(0)
-    res = []
-    for art in article_li:
-        comment_count: int = await art.comment_article.all().count()
-        art.comment_count = comment_count
-        res.append(art)
-    count = await Article.all().count()
-    return templates.TemplateResponse('index.html',
-                                      {"request": request, "res": res, "page_num": 1,
-                                       "count": count, "pages": count//10 + 1}
-                                      )
+    res = await Article.article_page()
+    res.update({"request": request})
+    return templates.TemplateResponse('index.html', res)
 
 
 def router_register(app):
