@@ -18,6 +18,6 @@ async def index(request: Request):
 
 def router_register(app):
     app.include_router(base_router)
-    for view in conf.views:
-        view = importlib.import_module(f'{view}.views')
-        app.include_router(view.router)
+    for view_name in conf.views:
+        view = importlib.import_module(f'{view_name}.views')
+        app.include_router(view.router, prefix=f'/{view_name}')

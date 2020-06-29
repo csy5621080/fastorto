@@ -7,17 +7,16 @@ router = UserAPIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/tags/")
+@router.get("/users/")
 async def read_users():
     return [{"username": "Foo"}, {"username": "Bar"}]
 
 
-@router.get("/tags/me")
+@router.get("/users/me")
 async def read_user_me():
     return {"username": "fakecurrentuser"}
 
 
-@router.get("/tags/{username}", tags=["tags"])
-async def read_user(request: Request, username: str):
-    res = await User.filter(user_name=username).first()
-    return res
+@router.get("/users/{username}")
+async def read_user(username: str):
+    return {"username": username}
