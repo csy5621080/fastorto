@@ -16,6 +16,12 @@ async def articles(request: Request, page_num: int):
     return JSONResponse(res)
 
 
+@router.get('/admin/list/{page_num}')
+async def admin_articles(request: Request, page_num: int):
+    res = await Article.article_page(page_num, backend=True)
+    return JSONResponse(res)
+
+
 @router.get('/detail/{pk}')
 async def article(request: Request, pk: int):
     res: Article = await Article.get(id=pk)
@@ -23,6 +29,12 @@ async def article(request: Request, pk: int):
     author = await res.author
     return templates.TemplateResponse('article.html',
                                       {"request": request, 'res': res, 'comments': comments, 'author': author})
+
+
+@router.get('/admin/detail/{pk}')
+async def article(request: Request, pk: int):
+    res: dict = await Article.article_detail(pk, backend=True)
+    return JSONResponse(res)
 
 
 @router.post('/push')

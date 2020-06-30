@@ -13,16 +13,29 @@ class Article(Model):
     img_path = fields.CharField(max_length=256, null=True)
 
     @classmethod
-    async def article_page(cls, page_num: int = 1, page_size: int = 10):
+    async def article_page(cls, page_num: int = 1, page_size: int = 10, backend: bool = False):
         article_li: list = await Article.all().order_by('-id').limit(page_size).offset((page_num - 1) * 10)
         res = []
         for art in article_li:
-            comment_count: int = await art.comment_article.all().count()
-            art = await Serializer(art, True).to_dict()
-            art.update(dict(comment_count=comment_count))
+            other_ = dict()
+            if not backend:
+                comment_count: int = await art.comment_article.all().count()
+                other_ = dict(comment_count=comment_count)
+            art = await Serializer(art, with_relate=True).to_dict()
+            art.update(other_)
             res.append(art)
         count = await Article.all().count()
         return dict(res=res, count=count, page_num=page_num, pages=count // 10 + 1)
+
+    @classmethod
+    async def article_detail(cls, pk, backend=False):
+        res: Article = await Article.get(id=pk)
+        res: dict = await Serializer(res, with_relate=True).to_dict()
+        if not backend:
+            comments: list = await Comment.filter(article_id=pk).order_by('-create_time')
+            comments = [await Serializer(comment, with_relate=True).to_dict() for comment in comments]
+            res.update(dict(comments=comments))
+        return res
 
 
 class Comment(Model):
