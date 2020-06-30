@@ -4,20 +4,19 @@ from article.models import Article, Comment
 from fastapi.requests import Request
 from core.routers import templates
 from fastapi import UploadFile, File
-from fastapi.responses import Response
+from fastapi.responses import Response, JSONResponse
 import json
 
 router = ArticleAPIRouter()
 
 
-@router.get('/articles/list/{page_num}')
+@router.get('/list/{page_num}')
 async def articles(request: Request, page_num: int):
     res = await Article.article_page(page_num)
-    res.update({"request": request})
-    return templates.TemplateResponse('index.html', res)
+    return JSONResponse(res)
 
 
-@router.get('/article/detail/{pk}')
+@router.get('/detail/{pk}')
 async def article(request: Request, pk: int):
     res: Article = await Article.get(id=pk)
     comments: list = await Comment.filter(article_id=pk).order_by('-create_time')
@@ -26,7 +25,7 @@ async def article(request: Request, pk: int):
                                       {"request": request, 'res': res, 'comments': comments, 'author': author})
 
 
-@router.post('/articles/push')
+@router.post('/push')
 async def article(request: Request, data: dict):
     data: dict = jsonable_encoder(data)
     data['author_id'] = 1
@@ -34,7 +33,7 @@ async def article(request: Request, data: dict):
     return templates.TemplateResponse('edit.html', {"request": request, 'res': res})
 
 
-@router.get("/articles/creator")
+@router.get("/creator")
 async def article_creator(request: Request):
     return templates.TemplateResponse('edit.html', {"request": request})
 
@@ -52,7 +51,7 @@ async def upload_img(file: UploadFile = File(...)):
         return Response(content=str(e))
 
 
-@router.post('/article/{article_id}/comment')
+@router.post('/{article_id}/comment')
 async def comment(request: Request, data: dict, article_id: int):
     ip = request.client.host
     data = jsonable_encoder(data)

@@ -1,6 +1,7 @@
 from tortoise.models import Model
 from tortoise import fields
 from user.models import User
+from core.serializer import Serializer
 
 
 class Article(Model):
@@ -17,9 +18,8 @@ class Article(Model):
         res = []
         for art in article_li:
             comment_count: int = await art.comment_article.all().count()
-            art.comment_count = comment_count
-            author = await art.author
-            art.author = author
+            art = await Serializer(art, True).to_dict()
+            art.update(dict(comment_count=comment_count))
             res.append(art)
         count = await Article.all().count()
         return dict(res=res, count=count, page_num=page_num, pages=count // 10 + 1)
