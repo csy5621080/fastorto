@@ -2,15 +2,21 @@ from tortoise.models import Model
 from tortoise import fields
 from user.models import User
 from core.serializer import Serializer
+from tags.models import Tag
 
 
 class Article(Model):
     id = fields.IntField(pk=True)
     title = fields.CharField(max_length=128)
     body = fields.TextField()
-    author: fields.ForeignKeyRelation[User] = fields.ForeignKeyField('models.User', related_name='author_user ')
+    author: fields.ForeignKeyRelation[User] = fields.ForeignKeyField('models.User', related_name='author_user')
     create_time = fields.DatetimeField(auto_now_add=True)
     img_path = fields.CharField(max_length=256, null=True)
+    is_public = fields.BooleanField(default=True)
+    summary = fields.CharField(max_length=500)
+    article_tag: fields.ManyToManyRelation["Tag"] = fields.ManyToManyField('models.Tag',
+                                                                           related_name='articles',
+                                                                           through="article_tag")
 
     @classmethod
     async def article_page(cls, page_num: int = 1, page_size: int = 10, backend: bool = False):
