@@ -33,4 +33,5 @@ class Serializer(object):
                                                         with_relate=self.with_relate
                                                         ).to_dict()
                                        for m2m_obj in m2m_objs]
-        return res
+                res[m2m_field_name + '_ids'] = [m2m_obj.id for m2m_obj in m2m_objs]
+            return res
