@@ -43,10 +43,34 @@ class Article(Model):
             res.update(dict(comments=comments))
         return res
 
+    @classmethod
+    async def creator(cls, **kwargs):
+        art = await Article.create(title=kwargs.get('title'),
+                                   body=kwargs.get('body'),
+                                   author_id=kwargs.get('author_id'),
+                                   is_public=kwargs.get('is_public', True),
+                                   summary=kwargs.get('summary'))
+        tags = kwargs.get('tags')
+        [await art.article_tag.add(await Tag.get(id=tag_id)) for tag_id in tags]
+        return await Serializer(art, with_relate=True).to_dict()
+
+    @classmethod
+    async def updater(cls, pk, **kwargs):
+        await Article.filter(id=pk).update(title=kwargs.get('title'),
+                                           body=kwargs.get('body'),
+                                           is_public=kwargs.get('is_public', True),
+                                           summary=kwargs.get('summary'))
+        art = await Article.get(id=pk)
+        await art.article_tag.clear()
+        tags = kwargs.get('tags')
+        [await art.article_tag.add(await Tag.get(id=tag)) for tag in tags]
+        return await Serializer(art, with_relate=True).to_dict()
+
 
 class Comment(Model):
     id = fields.IntField(pk=True)
-    article: fields.ForeignKeyRelation[Article] = fields.ForeignKeyField('models.Article', related_name='comment_article')
+    article: fields.ForeignKeyRelation[Article] = fields.ForeignKeyField('models.Article',
+                                                                         related_name='comment_article')
     parent = fields.ForeignKeyField('models.Comment', related_name='comment_parent', null=True)
     author = fields.CharField(max_length=128, null=True)
     email = fields.CharField(max_length=128, null=True)

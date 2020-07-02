@@ -41,8 +41,15 @@ async def article(request: Request, pk: int):
 async def article(request: Request, data: dict):
     data: dict = jsonable_encoder(data)
     data['author_id'] = 1
-    res = await Article.create(**data)
-    return templates.TemplateResponse('edit.html', {"request": request, 'res': res})
+    res = await Article.creator(**data)
+    return JSONResponse(res)
+
+
+@router.patch('/update/{pk}')
+async def article(request: Request, pk: int, data: dict):
+    data: dict = jsonable_encoder(data)
+    res = await Article.updater(pk, **data)
+    return JSONResponse(res)
 
 
 @router.get("/creator")
@@ -58,7 +65,7 @@ async def upload_img(file: UploadFile = File(...)):
         relative_path = '.' + save_path
         with open(relative_path, 'wb+') as img:
             img.write(contents)
-        return Response(content=json.dumps({"errno": 0, "data": [save_path]}))
+        return Response(content=json.dumps({"errno": 0, "data": ['http://0.0.0.0:8090' + save_path]}))
     except Exception as e:
         return Response(content=str(e))
 

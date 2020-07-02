@@ -1,19 +1,25 @@
 from fastapi import APIRouter as TagAPIRouter
 from fastapi.requests import Request
-
+from tags.models import Tag, Serializer
+from fastapi.responses import JSONResponse
 router = TagAPIRouter()
 
 
-@router.get("/tags/")
-async def read_users():
-    return [{"username": "Foo"}, {"username": "Bar"}]
+@router.get("/list")
+async def tags():
+    all_tag = await Tag.get_all()
+    return JSONResponse(all_tag)
 
 
-@router.get("/tags/me")
-async def read_user_me():
-    return {"username": "fakecurrentuser"}
+@router.post("/create")
+async def create(request: Request, data: dict):
+    new = await Tag.create(**data)
+    new_obj = await Serializer(new).to_dict()
+    return JSONResponse(new_obj)
 
 
-@router.get("/tags/{username}", tags=["tags"])
-async def read_user(request: Request, username: str):
-    return 1
+@router.delete("/del/{id}")
+async def create(request: Request, id: int):
+    del_num = await Tag.filter(id=id).delete()
+    return JSONResponse(del_num)
+
