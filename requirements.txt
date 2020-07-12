@@ -4,7 +4,11 @@ fastapi
 gunicorn
 jinja2
 configparser
-mysqlclient
 uvicorn
 python-multipart
 tortoise-orm
+itsdangerous
+aioredis
+aredis
+passlib
+bcrypt

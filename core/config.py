@@ -34,5 +34,8 @@ class Config(configparser.ConfigParser):
         db_name = self[self.db_section].get('database_name')
         return f'{engine}://{username}:{password}@{host}:{port}/{db_name}'
 
+    def salt(self):
+        return self['Secret'].get('salt')
+
 
 conf = Config()
